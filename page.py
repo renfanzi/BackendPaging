@@ -4,13 +4,20 @@ class Pagination:
         obj = Pagination(1, 20, 1001)
         print(obj.start)
         print(obj.end)
-
+        obj.item_pages --> 求分页的页码
     all_item :need the query library to count
     """
-    def __init__(self, current_page, appear_page,all_item):
+    """
+    all_item: 总count
+    current_page: 你的页数、
+    appear_page： 每页多少条数据
+    """
+
+    def __init__(self, all_item, current_page=0, appear_page=50):
         try:
             self.appear_page = appear_page
             self.int = int(current_page)
+            self.all_item = all_item
             page = self.int
         except:
             page = 1
@@ -31,6 +38,13 @@ class Pagination:
     @property
     def end(self):
         return self.current_page * self.appear_page
+
+    @property
+    def item_pages(self):
+        all_pager, c = divmod(self.all_item, self.appear_page)
+        if c > 0:
+            all_pager += 1
+        return 0, all_pager
 
     def string_pager(self, base_url="/index/"):
         list_page = []
@@ -57,9 +71,9 @@ class Pagination:
 
         for p in range(s, t):  # 1-11
             if p == self.current_page:
-                temp = '<a class="active" href="%s%s">%s</a>' % (base_url,p, p)
+                temp = '<a class="active" href="%s%s">%s</a>' % (base_url, p, p)
             else:
-                temp = '<a href="%s%s">%s</a>' % (base_url,p, p)
+                temp = '<a href="%s%s">%s</a>' % (base_url, p, p)
             list_page.append(temp)
         if self.current_page == self.all_pager:
             nex = '<a href="javascript:void(0);">下一页</a>'
@@ -69,4 +83,12 @@ class Pagination:
         list_page.append(nex)
 
         str_page = "".join(list_page)
+
         return str_page
+
+
+if __name__ == '__main__':
+    obj = Pagination(1001, 6, 100)
+    print(obj.start)
+    print(obj.end)
+    print(obj.item_pages)
