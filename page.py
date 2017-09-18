@@ -13,7 +13,7 @@ class Pagination:
     appear_page： 每页多少条数据
     """
 
-    def __init__(self, all_item, current_page=0, appear_page=50):
+    def __init__(self, all_item, current_page=1, appear_page=50):
         try:
             self.appear_page = appear_page
             self.int = int(current_page)
@@ -34,7 +34,7 @@ class Pagination:
 
     @property
     def start(self):
-        return (self.current_page - 1) * self.appear_page
+        return (self.current_page -1) * self.appear_page
 
     @property
     def end(self):
@@ -45,7 +45,7 @@ class Pagination:
         all_pager, c = divmod(self.all_item, self.appear_page)
         if c > 0:
             all_pager += 1
-        return 0, all_pager
+        return 1, all_pager+1
 
     def string_pager(self, base_url="/index/"):
         list_page = []
@@ -89,7 +89,7 @@ class Pagination:
 
 
 if __name__ == '__main__':
-    obj = Pagination(1001, 6, 100)
+    obj = Pagination(1001, 1)
     print(obj.start)
     print(obj.end)
     print(obj.item_pages)
