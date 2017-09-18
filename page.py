@@ -20,6 +20,7 @@ class Pagination:
             self.all_item = all_item
             page = self.int
         except:
+            self.all_item = 0
             page = 1
         if page < 1:
             page = 1
